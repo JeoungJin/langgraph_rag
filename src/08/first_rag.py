@@ -6,13 +6,13 @@ import re
 import sys
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
+from prepare import prepare_chunks
 
 CURRENT_DIR = os.path.dirname(__file__)
 INGEST_DIR = os.path.join(CURRENT_DIR, "..", "07")
 
 sys.path.insert(0, INGEST_DIR)
 
-from prepare import prepare_chunks
 
 load_dotenv()
 DATA_DIR = os.path.join(CURRENT_DIR, "..", "..", "data")
