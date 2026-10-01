@@ -6,6 +6,7 @@
 
 import warnings
 
+from memory import ConversationMemory
 from rag import ask
 
 
@@ -33,6 +34,9 @@ def main():
 
     # 프로그램 시작 안내문을 출력합니다.
     print(BANNER)
+
+    # 대화 기록 (최근 5턴 원문 + 이전 대화 요약)
+    memory = ConversationMemory()
 
     # 사용자가 종료할 때까지 계속 질문을 받습니다.
     while True:
@@ -73,7 +77,7 @@ def main():
         # RAG 시스템에 질문 전달
         # ----------------------------------------------------
 
-        result = ask(question)
+        result = ask(question, memory=memory)
 
 
         # ----------------------------------------------------
