@@ -9,6 +9,7 @@
 # 문서 기반 답변은 출처와 인용 번호가 올바른지도 함께 확인합니다.
 # ============================================================
 
+import os
 import re
 
 from dotenv import load_dotenv
@@ -30,8 +31,12 @@ from prompts import AGENT_SYSTEM_PROMPT
 # 1. 기본 환경 준비
 # ============================================================
 
-# .env 파일의 OPENAI_API_KEY를 환경변수로 불러옵니다.
+# .env 파일의 OPENAI_API_KEY, LANGSMITH_* 를 환경변수로 불러옵니다.
 load_dotenv()
+
+# LangSmith 추적: .env에 LANGSMITH_TRACING=true 와 LANGSMITH_API_KEY가 있을 때만 켜집니다.
+# 프로젝트 이름을 지정하지 않았다면 기본값을 사용합니다.
+os.environ.setdefault("LANGSMITH_PROJECT", "finance-agent")
 
 
 # FAISS 벡터 저장소를 준비합니다.
@@ -190,7 +195,17 @@ def ask(question: str, k: int = None, memory=None) -> dict:
 
         result = agent.invoke(
             {"messages": [*history, HumanMessage(question)]},
-            config={"recursion_limit": RECURSION_LIMIT},
+            config={
+                "recursion_limit": RECURSION_LIMIT,
+                # LangSmith 화면에서 실행을 구분하기 위한 이름·태그·메타데이터입니다.
+                "run_name": "finance_ask",
+                "tags": ["finance-agent", f"model:{config.LLM_MODEL}"],
+                "metadata": {
+                    "question": question,
+                    "memory_turns": len(memory.turns) if memory else 0,
+                    "has_summary": bool(memory and memory.summary),
+                },
+            },
         )
 
     except Exception as error:

@@ -75,6 +75,19 @@ pip install langchain-openai pypdf streamlit
 OPENAI_API_KEY=sk-...
 ```
 
+### LangSmith 추적 (선택)
+
+에이전트가 어떤 Tool을 어떤 순서로 호출했는지, 토큰·지연 시간은 얼마인지 [LangSmith](https://smith.langchain.com)에서 볼 수 있습니다.
+API 키를 발급받아 `.env`에 아래 줄을 추가(주석 해제)하면 켜지고, 없으면 추적 없이 평소대로 동작합니다.
+
+```
+LANGSMITH_TRACING=true
+LANGSMITH_API_KEY=lsv2_...
+LANGSMITH_PROJECT=finance-agent   # 생략하면 finance-agent
+```
+
+각 실행은 `finance_ask`라는 이름과 `finance-agent` 태그로 기록되고, 메타데이터에 질문·대화 턴 수·요약 유무가 함께 남습니다.
+
 ## 실행
 
 ```powershell
