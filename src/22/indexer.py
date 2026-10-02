@@ -27,6 +27,10 @@ EMBED_MODEL = "text-embedding-3-small"
 from prepare import prepare_chunks
 
 def get_store(rebuild=False):
+    # 인덱스 파일이 없으면 자동으로 새로 만듭니다.
+    if not os.path.exists(os.path.join(INDEX_PATH, "index.faiss")):
+        rebuild = True
+
     if rebuild:
         chunks = prepare_chunks(DOC_PATH)
         print(f"Number of chunks created(분할완료): {len(chunks)}")

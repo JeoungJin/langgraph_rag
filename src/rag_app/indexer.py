@@ -88,7 +88,10 @@ def get_store(rebuild=False):
     )
 
     # 저장된 인덱스가 있고 강제 재생성이 아니면 불러옵니다.
-    if os.path.exists(config.INDEX_PATH) and not rebuild:
+    # 폴더만 있고 비어 있는 경우를 피하려고 index.faiss 파일을 확인합니다.
+    index_file = os.path.join(config.INDEX_PATH, "index.faiss")
+
+    if os.path.exists(index_file) and not rebuild:
 
         store = FAISS.load_local(
             config.INDEX_PATH,
