@@ -226,9 +226,8 @@ if __name__ == "__main__":
             "top_k": 10,
         },
         {
-            "query": "환불과 교환 차이",
-            "search_type": "mmr",
-        },
+            "query": "환불과 교환 차이" #,   "search_type": "mmr",
+        } 
     ]
 
     # 테스트 질문을 하나씩 실행합니다.

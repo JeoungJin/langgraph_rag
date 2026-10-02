@@ -163,7 +163,7 @@ def check_citation(answer, document_count):
         return False, message
 
     # 모든 인용 번호가 정상인 경우입니다.
-    message = f"인용 {len(citation_numbers)}건 정상"
+    message = f"인용 {len(citation_numbers)}건 정상  {citation_numbers}"
     return True, message
 
 
